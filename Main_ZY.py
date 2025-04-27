@@ -14,6 +14,30 @@ from sklearn.naive_bayes import GaussianNB
 from imblearn.over_sampling import SMOTE
 from joblib import load
 
+# Added the missing load_data function
+def load_data():
+    """
+    Load credit risk dataset
+    """
+    try:
+        # Try to load from the current directory
+        return pd.read_csv("credit_risk_dataset.csv")
+    except:
+        # Create a sample dataset if file isn't found
+        st.warning("Using sample data as credit_risk_dataset.csv wasn't found. Please upload the file to the same directory.")
+        sample_size = 1000
+        data = {
+            'person_age': np.random.randint(18, 70, sample_size),
+            'person_income': np.random.randint(20000, 200000, sample_size),
+            'person_emp_length': np.random.uniform(0, 30, sample_size),
+            'loan_amnt': np.random.randint(1000, 40000, sample_size),
+            'loan_int_rate': np.random.uniform(5, 25, sample_size),
+            'loan_percent_income': np.random.uniform(0, 30, sample_size),
+            'cb_person_cred_hist_length': np.random.randint(2, 30, sample_size),
+            'loan_status': np.random.randint(0, 2, sample_size)
+        }
+        return pd.DataFrame(data)
+
 # --- Functions ---
 
 def evaluate_model(model, X_test, y_test, threshold=0.5):
